@@ -10,7 +10,7 @@
         "url": "data/suburbsCut.topojson",
         "format": {"type": "topojson", "feature": "states"}
       },
-      "mark": {"type": "geoshape", "fill": "white", "stroke": "darkgray"}
+      "mark": {"type": "geoshape", "fill": "#E0ECF4", "stroke": "darkgray"}
     },
     {
       "data": {"url": "data/yarra-significant-trees-fixed.csv"},
@@ -41,5 +41,6 @@
         }
       }
     }
-  ]
+  ],
+  "config": {"background": "#E0ECF4"}
 }

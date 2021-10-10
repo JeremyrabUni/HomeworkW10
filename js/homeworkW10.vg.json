@@ -1,7 +1,7 @@
 {
   "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
   "data": {
-    "url": "https://raw.githubusercontent.com/Jeremyrab/HomeworkW10/main/data/yarra-street-and-park-trees-fixed.csv",
+    "url": "data/yarra-street-and-park-trees-fixed.csv",
     "format": {"type": "csv", "parse": {"dbh": "number", "height": "number"}}
   },
   "params": [
@@ -46,7 +46,7 @@
             },
             {"filter": "datum.rank < 10"}
           ],
-          "mark": "bar",
+          "mark": {"type":"bar","color":"green"},
           "encoding": {
             "x": {
               "field": "aggregated_common_count",
@@ -99,5 +99,6 @@
         }
       ]
     }
-  ]
+  ],
+  "config": {"background": "#E0ECF4"}
 }
