@@ -1,0 +1,103 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/Jeremyrab/HomeworkW10/main/data/yarra-street-and-park-trees-fixed.csv",
+    "format": {"type": "csv", "parse": {"dbh": "number", "height": "number"}}
+  },
+  "params": [
+    {
+      "name": "maturityLevelSelection",
+      "bind": {
+        "input": "select",
+        "options": [null, "Young", "Semi-mature", "Mature", "Over-mature"],
+        "labels": ["Show All", "Young", "Semi-mature", "Mature", "Over-mature"],
+        "name": "Maturity Level Selection:"
+      }
+    }
+  ],
+  "transform": [
+    {
+      "filter": "maturityLevelSelection == null || datum.maturity == maturityLevelSelection"
+    }
+  ],
+  "hconcat": [
+    {
+      "title": "Most Common Type of Tree",
+      "height": 600,
+      "width": 600,
+      "layer": [
+        {
+          "transform": [
+            {
+              "aggregate": [
+                {
+                  "op": "count",
+                  "field": "common",
+                  "as": "aggregated_common_count"
+                }
+              ],
+              "groupby": ["common", "genus"]
+            },
+            {
+              "window": [{"op": "rank", "as": "rank"}],
+              "sort": [
+                {"field": "aggregated_common_count", "order": "descending"}
+              ]
+            },
+            {"filter": "datum.rank < 10"}
+          ],
+          "mark": "bar",
+          "encoding": {
+            "x": {
+              "field": "aggregated_common_count",
+              "type": "quantitative",
+              "title": "Count of Tree"
+            },
+            "y": {
+              "field": "common",
+              "type": "nominal",
+              "sort": {
+                "field": "aggregated_common_count",
+                "order": "descending"
+              },
+              "title": "Type of Tree"
+            },
+            "tooltip": [{"field": "genus", "title": "Genus"}, {"field": "aggregated_common_count", "title": "Count of Trees"}]
+          }
+        },
+        {
+          "transform": [
+            {
+              "aggregate": [
+                {
+                  "op": "count",
+                  "field": "common",
+                  "as": "aggregated_common_count"
+                }
+              ],
+              "groupby": ["common", "genus"]
+            },
+            {
+              "window": [{"op": "rank", "as": "rank"}],
+              "sort": [
+                {"field": "aggregated_common_count", "order": "descending"}
+              ]
+            },
+            {"filter": "datum.rank == 1"},
+            {
+              "calculate": "'The most common tree type of the selected maturities are ' + datum['common'] + ' also known as the ' + datum['genus']",
+              "as": "text_annotation"
+            }
+          ],
+          "mark": {
+            "type": "text",
+            "align": "center",
+            "baseline": "top",
+            "dy": -270
+          },
+          "encoding": {"text": {"field": "text_annotation"}}
+        }
+      ]
+    }
+  ]
+}

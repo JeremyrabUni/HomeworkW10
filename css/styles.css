@@ -1,0 +1,13 @@
+#symbol_map {
+	top:100px;
+	bottom: 100px; 
+	left: 100px;
+	right: 100px;
+	/*height: 600px;
+	width: 600px;*/
+}
+
+h1 {
+	font-family: sans-serif;
+	text-align: center;
+}

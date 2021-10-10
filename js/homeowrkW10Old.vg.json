@@ -1,0 +1,93 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {"url": "https://raw.githubusercontent.com/Jeremyrab/HomeworkW10/main/data/yarra-street-and-park-trees-fixed.csv", "format": {"type": "csv", "parse": {"dbh":"number", "height":"number"}}},
+    "params": [
+      {
+        "name": "maturityLevelSelection",
+        "bind": {
+          "input": "select",
+          "options": [null, "Young", "Semi-mature", "Mature", "Over-mature"],
+          "labels": ["Show All", "Young", "Semi-mature", "Mature", "Over-mature"],
+          "name": "Maturity Level Selection:"
+        }
+      }
+    ],
+    "transform": [
+      {
+        "filter": "maturityLevelSelection == null || datum.maturity == maturityLevelSelection"
+      }
+    ],
+    "hconcat": [
+      {
+        "width": 600,
+        "height": 600,
+        "title": "Distribution of Tree Heights",
+        "layer": [
+          {
+            "mark": "bar",
+            "encoding": {
+              "x": {
+                "bin": {"extent": [0.5, 25.5], "step": 1, "nice": false},
+                "field": "height",
+                "title": "Height (m)"
+              },
+              "y": {"aggregate": "count", "title": "Count of Trees"},
+              "tooltip": [
+                {"aggregate": "count", "title": "Count of Trees in Bin: "}
+              ]
+            }
+          },
+          {
+            "mark": "text",
+            "transform": [
+              {
+                "window": [{"op": "rank", "as": "ranking"}],
+                "sort": [{"field": "height", "order": "descending"}]
+              },
+              {"filter": "datum.ranking == 1"},
+              {
+                "calculate": "'The thickest tree of the selected maturity is ' + datum['height'] + ' m'",
+                "as": "text_annotation"
+              }
+            ],
+            "encoding": {"text": {"field": "text_annotation"}
+            }
+          }
+        ]
+      },
+      {
+        "width": 600,
+        "height": 600,
+        "title": "Distribution of Tree Diameters",
+        "layer": [
+          {
+            "mark": "bar",
+            "encoding": {
+              "x": {
+                "bin": {"extent": [0, 140], "step": 6},
+                "field": "dbh",
+                "title": "Diameter (cm)"
+              },
+              "y": {"aggregate": "count", "title": "Count of Trees"}
+            }
+          },
+          {
+            "mark": "text",
+            "transform": [
+              {
+                "window": [{"op": "rank", "as": "ranking"}],
+                "sort": [{"field": "dbh", "order": "descending"}]
+              },
+              {"filter": "datum.ranking == 1"},
+              {
+                "calculate": "'The thickest tree of the selected maturity is ' + datum['dbh'] + ' cm'",
+                "as": "text_annotation"
+              }
+            ],
+            "encoding": {"text": {"field": "text_annotation"}
+            }
+          }
+        ]
+      }
+    ]
+  }

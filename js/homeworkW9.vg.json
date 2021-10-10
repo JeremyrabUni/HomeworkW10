@@ -1,0 +1,45 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 600,
+  "height": 600,
+  "title": "Significant Trees in the City of Yarra",
+  "projection": {"type": "mercator"},
+  "layer": [
+    {
+      "data": {
+        "url": "data/suburbsCut.topojson",
+        "format": {"type": "topojson", "feature": "states"}
+      },
+      "mark": {"type": "geoshape", "fill": "white", "stroke": "darkgray"}
+    },
+    {
+      "data": {"url": "data/yarra-significant-trees-fixed.csv"},
+      "mark": "circle",
+      "encoding": {
+        "longitude": {"field": "lon", "type": "quantitative"},
+        "latitude": {"field": "lat", "type": "quantitative"},
+        "tooltip": [
+          {"field": "age", "type": "ordinal", "title": "Age of the tree: "},
+          {"field": "common", "type": "nominal", "title": "Tree Type: "},
+          {"field": "height", "type": "quantitative", "title": "Height: "}
+        ],
+        "size": {"value": 15},
+        "color": {
+          "field": "age",
+          "scale": {
+            "range": ["#ccece6", "#99d8c9", "#66c2a4", "#2ca25f", "#006d2c"]
+          },
+          "type": "ordinal",
+          "sort": [
+            "21-40 years",
+            "41-60 years",
+            "61-80 years",
+            "81-100 years",
+            "100+ years"
+          ],
+          "title": "Age of the tree"
+        }
+      }
+    }
+  ]
+}
