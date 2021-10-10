@@ -27,7 +27,7 @@
         "color": {
           "field": "age",
           "scale": {
-            "range": ["#ccece6", "#99d8c9", "#66c2a4", "#2ca25f", "#006d2c"]
+            "range": ["#A5DB96","#87CC79","#6AB25F","#4E9A51","#346636","#203F21"]
           },
           "type": "ordinal",
           "sort": [
